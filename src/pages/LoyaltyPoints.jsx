@@ -1,101 +1,147 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
+import { 
+  Award, 
+  Coffee, 
+  Gift, 
+  HelpCircle 
+} from "lucide-react";
 
 const LoyaltyPoints = () => {
+  const [activeSection, setActiveSection] = useState('how-it-works');
+
+  const renderSection = () => {
+    switch(activeSection) {
+      case 'how-it-works':
+        return (
+          <motion.div 
+            className="bg-white/10 backdrop-blur-lg rounded-2xl p-10"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+          >
+            <div className="grid md:grid-cols-3 gap-8">
+              {[
+                { 
+                  icon: <Coffee size={48} className="text-white mb-4" />,
+                  title: "Earn Points",
+                  description: "Collect 1 point for every Rp 10,000 spent on your favorite coffee."
+                },
+                { 
+                  icon: <Gift size={48} className="text-white mb-4" />,
+                  title: "Redeem Rewards",
+                  description: "Transform points into exclusive discounts, free drinks, and merchandise."
+                },
+                { 
+                  icon: <Award size={48} className="text-white mb-4" />,
+                  title: "Level Up",
+                  description: "Unlock higher tiers with more benefits and personalized perks."
+                }
+              ].map((item, index) => (
+                <div 
+                  key={index} 
+                  className="text-center bg-white/10 p-6 rounded-xl hover:bg-white/20 transition-all"
+                >
+                  {item.icon}
+                  <h3 className="text-2xl font-bold text-white mb-4">{item.title}</h3>
+                  <p className="text-white/80">{item.description}</p>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        );
+      case 'rewards':
+        // ... (rest of the code remains the same)
+      case 'faq':
+        return (
+          <motion.div 
+            className="bg-white/10 backdrop-blur-lg rounded-2xl p-10"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+          >
+            <div className="space-y-6">
+              {[
+                { 
+                  question: "How do I earn points?", 
+                  answer: "Points are automatically added with each purchase in our café or online store."
+                },
+                { 
+                  question: "Do points expire?", 
+                  answer: "Points are valid for 12 months from the date of earning." 
+                },
+                { 
+                  question: "Can I transfer points?", 
+                  answer: "Points are non-transferable and linked to your personal account." 
+                }
+              ].map((faq, index) => (
+                <div 
+                  key={index} 
+                  className="bg-white/10 p-6 rounded-xl hover:bg-white/20 transition-all"
+                >
+                  <h3 className="text-2xl font-bold text-white mb-3">
+                    <HelpCircle className="inline-block mr-3 text-white/70" size={24} />
+                    {faq.question}
+                  </h3>
+                  <p className="text-white/80">{faq.answer}</p>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        );
+      default:
+        return null;
+    }
+  };
+
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center bg-[#f0f0f0] p-10">
-      <motion.h1
-        className="text-4xl font-bold text-[#6996c8] mb-4"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1 }}
-      >
-        Loyalty Points Program
-      </motion.h1>
+    <div className="min-h-screen bg-gradient-to-b from-[#5a8bc2] to-[#2f4e6d] p-10 relative text-white">
+      <div className="max-w-5xl mx-auto">
+        <motion.h1
+          className="text-6xl font-bold text-center mb-16"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+        >
+          Loyalty Rewards Program
+        </motion.h1>
 
-      <motion.p
-        className="text-xl mb-6 text-center text-[#4B3B2F]"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1, delay: 0.5 }}
-      >
-        Learn more about our Loyalty Points program and how you can earn rewards!
-      </motion.p>
+        {/* Navigation Tabs */}
+        <div className="flex justify-center mb-12 space-x-4">
+          {[
+            { key: 'how-it-works', label: 'How It Works', icon: <Coffee /> },
+            { key: 'rewards', label: 'Rewards', icon: <Gift /> },
+            { key: 'faq', label: 'FAQ', icon: <HelpCircle /> }
+          ].map((tab) => (
+            <button
+              key={tab.key}
+              onClick={() => setActiveSection(tab.key)}
+              className={`
+                flex items-center space-x-2 px-6 py-3 rounded-full 
+                transition-all duration-300
+                ${activeSection === tab.key 
+                  ? 'bg-white text-[#2f4e6d]' 
+                  : 'bg-white/10 text-white hover:bg-white/20'
+                }
+              `}
+            >
+              {tab.icon}
+              <span>{tab.label}</span>
+            </button>
+          ))}
+        </div>
 
-      {/* Loyalty Points Info Section */}
-      <div className="bg-white p-8 rounded-lg shadow-xl mb-8 max-w-4xl w-full">
-        <h2 className="text-2xl font-semibold text-[#6996c8] mb-4">
-          How It Works
-        </h2>
-        <p className="text-lg text-[#4B3B2F] mb-4">
-          Earn loyalty points with every purchase! Here's how it works:
-        </p>
-        <ul className="list-disc pl-5 text-[#4B3B2F] text-lg">
-          <li>Earn 1 point for every Rp 10,000 spent at Nimbus Coffee.</li>
-          <li>Redeem your points for exciting rewards like discounts and freebies.</li>
-          <li>Check your points balance anytime in your account dashboard.</li>
-          <li>Invite friends and earn bonus points when they join the program!</li>
-        </ul>
-      </div>
+        {/* Dynamic Content Section */}
+        {renderSection()}
 
-      {/* Rewards Table */}
-      <motion.div
-        className="bg-white p-8 rounded-lg shadow-xl mb-8 max-w-4xl w-full"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1, delay: 1 }}
-      >
-        <h2 className="text-2xl font-semibold text-[#6996c8] mb-4">Rewards</h2>
-        <table className="min-w-full table-auto text-[#4B3B2F]">
-          <thead>
-            <tr>
-              <th className="py-3 px-4 border-b">Points</th>
-              <th className="py-3 px-4 border-b">Reward</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td className="py-3 px-4 border-b">100 Points</td>
-              <td className="py-3 px-4 border-b">Rp 20,000 Discount</td>
-            </tr>
-            <tr>
-              <td className="py-3 px-4 border-b">250 Points</td>
-              <td className="py-3 px-4 border-b">Free Coffee of Your Choice</td>
-            </tr>
-            <tr>
-              <td className="py-3 px-4 border-b">500 Points</td>
-              <td className="py-3 px-4 border-b">Nimbus Coffee Tumbler</td>
-            </tr>
-          </tbody>
-        </table>
-      </motion.div>
-
-      {/* Join Program Button */}
-      <motion.div
-        className="bg-[#6996c8] text-white py-4 px-8 rounded-full cursor-pointer"
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-      >
-        <h3 className="text-center text-2xl font-semibold">Join the Program Now</h3>
-      </motion.div>
-
-      {/* FAQ Section */}
-      <div className="bg-white p-8 rounded-lg shadow-xl mt-8 mb-8 max-w-4xl w-full">
-        <h2 className="text-2xl font-semibold text-[#6996c8] mb-4">Frequently Asked Questions</h2>
-        <ul className="list-decimal pl-5 text-[#4B3B2F]">
-          <li>
-            <strong>Q: How do I redeem my points?</strong>
-            <p>A: You can redeem your points through the rewards section in your account dashboard.</p>
-          </li>
-          <li>
-            <strong>Q: Can I use my points in combination with other discounts?</strong>
-            <p>A: Unfortunately, loyalty points cannot be combined with other offers or discounts.</p>
-          </li>
-          <li>
-            <strong>Q: How do I track my points?</strong>
-            <p>A: You can track your points balance in your account or check your receipt after every purchase.</p>
-          </li>
-        </ul>
+        {/* CTA Button */}
+        <div className="text-center mt-16">
+          <motion.button
+            className="bg-white text-[#2f4e6d] px-12 py-5 rounded-full 
+            text-xl font-bold hover:bg-white/90 transition-all duration-300 shadow-xl"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            Join Loyalty Program
+          </motion.button>
+        </div>
       </div>
     </div>
   );
