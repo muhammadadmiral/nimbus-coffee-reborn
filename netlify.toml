@@ -1,0 +1,6 @@
+[build]
+  command = "npm run build"  # Perintah untuk build
+  publish = "dist"  # Folder hasil build yang akan di-deploy
+
+[dev]
+  framework = "vite"  # Jika kamu menggunakan Vite
