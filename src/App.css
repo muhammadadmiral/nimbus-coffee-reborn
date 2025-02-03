@@ -1,10 +1,13 @@
+/* Menambahkan layout untuk #root */
 #root {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  position: relative;  /* Tambahkan position relative untuk pengaturan layer */
 }
 
+/* Styling untuk logo */
 .logo {
   height: 6em;
   padding: 1.5em;
@@ -27,16 +30,29 @@
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
+/* Menambahkan style untuk card */
 .card {
   padding: 2em;
 }
 
+/* Styling untuk teks link */
 .read-the-docs {
   color: #888;
+}
+
+/* Styling untuk navbar agar tetap berada di atas */
+nav {
+  position: relative;
+  z-index: 10;
+}
+
+/* Pastikan hero section berada di atas dengan z-index */
+.hero-section {
+  position: relative;
+  z-index: 20; /* Z-index lebih tinggi agar terlihat di atas background */
+}
+
+/* Jika ada elemen parallax atau background */
+.bg-fixed {
+  z-index: -1; /* Pastikan background tetap di bawah konten */
 }

@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
 import { FiMenu, FiX } from "react-icons/fi";
 import { motion, AnimatePresence } from "framer-motion";
-import logo from "/logo-nimbus.jpg";
+import { Link } from "react-router-dom";
+import logo from "/logo-nimbus.jpg"; // pastikan pathnya benar
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -18,9 +17,7 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-      scrolled ? 'bg-[#040402]/90 backdrop-blur-md shadow-lg' : 'bg-transparent'
-    }`}>
+    <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled ? 'bg-[#040402]/90 backdrop-blur-md shadow-lg' : 'bg-transparent'}`}>
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center h-20">
           <motion.div
@@ -30,9 +27,7 @@ const Navbar = () => {
           >
             <Link to="/" className="flex items-center gap-3">
               <img src={logo} alt="Nimbus Coffee" className="h-14 rounded-full" />
-              <span className="font-bold text-xl text-[#6996c8] hidden sm:block">
-                Nimbus Coffee
-              </span>
+              <span className="font-bold text-xl text-[#6996c8] hidden sm:block">Nimbus Coffee</span>
             </Link>
           </motion.div>
 
@@ -45,10 +40,7 @@ const Navbar = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
               >
-                <NavLink 
-                  to={item === 'Home' ? '/' : `/${item.toLowerCase()}`}
-                  isActive={location.pathname === (item === 'Home' ? '/' : `/${item.toLowerCase()}`)}
-                >
+                <NavLink to={item === 'Home' ? '/' : `/${item.toLowerCase()}`}>
                   {item}
                 </NavLink>
               </motion.div>
@@ -83,11 +75,7 @@ const Navbar = () => {
                     animate={{ x: 0, opacity: 1 }}
                     transition={{ delay: index * 0.1 }}
                   >
-                    <MobileNavLink
-                      to={item === 'Home' ? '/' : `/${item.toLowerCase()}`}
-                      onClick={() => setIsOpen(false)}
-                      isActive={location.pathname === (item === 'Home' ? '/' : `/${item.toLowerCase()}`)}
-                    >
+                    <MobileNavLink to={item === 'Home' ? '/' : `/${item.toLowerCase()}`} onClick={() => setIsOpen(false)}>
                       {item}
                     </MobileNavLink>
                   </motion.div>
@@ -101,28 +89,20 @@ const Navbar = () => {
   );
 };
 
-const NavLink = ({ to, children, isActive }) => (
+const NavLink = ({ to, children }) => (
   <Link to={to} className="relative group">
-    <span className={`text-lg font-medium transition-colors ${
-      isActive ? 'text-[#6996c8]' : 'text-[#eeb296] hover:text-[#6996c8]'
-    }`}>
+    <span className="text-lg font-medium transition-colors text-[#eeb296] hover:text-[#6996c8]">
       {children}
     </span>
-    <span className={`absolute -bottom-1 left-0 w-full h-0.5 transform origin-left transition-transform duration-300 ${
-      isActive ? 'bg-[#6996c8] scale-x-100' : 'bg-[#6996c8] scale-x-0 group-hover:scale-x-100'
-    }`} />
+    <span className="absolute -bottom-1 left-0 w-full h-0.5 transform origin-left transition-transform duration-300 bg-[#6996c8] scale-x-0 group-hover:scale-x-100" />
   </Link>
 );
 
-const MobileNavLink = ({ to, children, onClick, isActive }) => (
+const MobileNavLink = ({ to, children, onClick }) => (
   <Link
     to={to}
     onClick={onClick}
-    className={`block py-3 px-4 my-1 rounded-lg transition-all ${
-      isActive 
-        ? 'bg-[#6996c8]/20 text-[#6996c8]' 
-        : 'text-[#eeb296] hover:bg-[#6996c8]/10 hover:text-[#6996c8]'
-    }`}
+    className="block py-3 px-4 my-1 rounded-lg transition-all text-[#eeb296] hover:bg-[#6996c8]/10 hover:text-[#6996c8]"
   >
     {children}
   </Link>

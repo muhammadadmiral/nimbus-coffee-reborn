@@ -1,5 +1,6 @@
 import React from "react";
 
+
 const TimeBasedGreeting = () => {
   const currentHour = new Date().getHours();
   let greeting = "Good Morning!";
@@ -10,10 +11,11 @@ const TimeBasedGreeting = () => {
   }
 
   return (
-    <div className="text-center text-white font-bold text-3xl mt-6">
+    <div className="text-center text-white font-bold text-3xl mt-12 mb-8">
       {greeting} Welcome to Nimbus Coffee!
     </div>
   );
 };
+
 
 export default TimeBasedGreeting;

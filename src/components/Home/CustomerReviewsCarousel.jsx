@@ -1,11 +1,6 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-
-const testimonials = [
-  { review: "Best coffee in town!", customer: "@coffee_lover" },
-  { review: "Such a smooth taste, I love it!", customer: "@javaqueen" },
-  { review: "Nimbus Coffee never disappoints!", customer: "@dailybrew" },
-];
+import { testimonials } from "./testimonialdata"; // Import testimonial data
 
 const CustomerReviewsCarousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -21,35 +16,61 @@ const CustomerReviewsCarousel = () => {
   };
 
   return (
-    <div className="text-center mb-8">
+    <div className="text-center mb-16">
+      {/* Title above the carousel */}
+      <h2 className="text-3xl font-semibold text-[#eeb296] mb-8">
+        What People Are Saying
+      </h2>
+
       <AnimatePresence>
         <motion.div
           key={currentIndex}
-          initial={{ opacity: 0, y: 100 }}
+          initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -100 }}
+          exit={{ opacity: 0, y: -50 }}
           transition={{ duration: 0.5 }}
         >
-          <div className="bg-[#3b5f87] p-6 rounded-lg text-white shadow-lg">
-            <p className="text-xl italic">"{testimonials[currentIndex].review}"</p>
-            <p className="text-sm mt-4 font-semibold">{testimonials[currentIndex].customer}</p>
+          <div className="bg-[#3b5f87] p-8 rounded-lg text-white shadow-xl max-w-lg mx-auto flex items-center justify-center">
+            {/* Testimonial with image */}
+            <div className="flex items-center gap-4">
+              <img
+                src={testimonials[currentIndex].photo}
+                alt={testimonials[currentIndex].customer}
+                className="w-16 h-16 rounded-full object-cover"
+              />
+              <div>
+                <p className="text-xl italic mb-4">
+                  "{testimonials[currentIndex].review}"
+                </p>
+                <p className="text-sm font-semibold">
+                  {testimonials[currentIndex].customer}
+                </p>
+              </div>
+            </div>
           </div>
         </motion.div>
       </AnimatePresence>
 
-      <div className="mt-4">
-        <button
+      {/* Buttons below the carousel */}
+      <div className="mt-6 flex justify-center space-x-6">
+        <motion.button
           onClick={prevTestimonial}
-          className="px-4 py-2 bg-[#6996c8] text-white rounded-lg mr-4"
+          className="px-8 py-3 bg-[#6996c8] text-white rounded-lg hover:bg-[#6492c5] transition-all duration-300"
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 1 }} // No scale on tap to avoid movement
+          style={{ zIndex: 10 }} // Keep the button on top of other elements
         >
           Previous
-        </button>
-        <button
+        </motion.button>
+        <motion.button
           onClick={nextTestimonial}
-          className="px-4 py-2 bg-[#6996c8] text-white rounded-lg"
+          className="px-8 py-3 bg-[#6996c8] text-white rounded-lg hover:bg-[#6492c5] transition-all duration-300"
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 1 }} // No scale on tap to avoid movement
+          style={{ zIndex: 10 }} // Keep the button on top of other elements
         >
           Next
-        </button>
+        </motion.button>
       </div>
     </div>
   );
