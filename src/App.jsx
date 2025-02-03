@@ -1,8 +1,8 @@
 import React from "react";
 import { BrowserRouter as Router } from "react-router-dom";
-import Navbar from "./components/layout/Navbar";
-import Footer from "./components/layout/Footer";
-import AppRoutes from "./route/Route";  
+import Navbar from "./components/Layout/Navbar";
+import Footer from "./components/Layout/Footer";
+import AppRoutes from "./route/Route";  // Pastikan path benar!
 
 const App = () => {
   return (
@@ -10,7 +10,7 @@ const App = () => {
       <div className="flex flex-col min-h-screen">
         <Navbar />
         <div className="flex-grow">
-          <AppRoutes />
+          <AppRoutes />  {/* ✅ Pastikan ini ada untuk memuat halaman */}
         </div>
         <Footer />
       </div>

@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+    background-color: #87A6C0; /* Warna biru Nimbus Coffee */
+    color: #4B3B2F; /* Warna coklat tua */
+    font-family: 'Poppins', sans-serif;
+  }
+  
