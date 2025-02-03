@@ -1,62 +1,84 @@
-import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import MenuItems from "../components/Menu/MenuItem";
-import Modal from "../components/Menu/ModalComponent";
-import RecommendedMenu from "../components/Menu/RecommendedMenu";
-
-
-const menuItems = [
-  {
-    name: "Kopi Susu",
-    image: "/nimbus-kopi-susu.jpg",
-    description: "Kopi susu khas Nimbus Coffee dengan rasa creamy dan seimbang.",
-    variants: [
-      { size: "200 ML", price: "Rp 20.000" },
-      { size: "250 ML", price: "Rp 23.000" },
-      { size: "500 ML", price: "Rp 44.000" },
-      { size: "1000 ML", price: "Rp 90.000" },
-    ],
-    recommended: true,
-  },
-  {
-    name: "Butterscotch",
-    image: "/nimbus-coffee-butterscotch.jpg",
-    description: "Kopi dengan sentuhan butterscotch yang manis dan lembut.",
-    variants: [
-      { size: "200 ML", price: "Rp 25.000" },
-      { size: "250 ML", price: "Rp 28.000" },
-      { size: "500 ML", price: "Rp 52.000" },
-      { size: "1000 ML", price: "Rp 100.000" },
-    ],
-  },
-];
+import React, { useState, useMemo } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { MENU_ITEMS, MENU_CATEGORIES } from '../components/Menu/menuData';
+import SearchFilter from '../components/Menu/SearchFilter';
+import RecommendedMenu from '../components/Menu/RecommendedMenu';
+import MenuModal from '../components/Menu/MenuModal';
 
 const Menu = () => {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [category, setCategory] = useState('');
+  const [sortOption, setSortOption] = useState('recommended');
   const [selectedItem, setSelectedItem] = useState(null);
 
+  const filteredItems = useMemo(() => {
+    let result = MENU_ITEMS.filter(item => 
+      item.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
+      (category === '' || item.category === category)
+    );
+
+    switch (sortOption) {
+      case 'rating':
+        return result.sort((a, b) => b.rating - a.rating);
+      case 'price-asc':
+        return result.sort((a, b) => a.variants[0].price - b.variants[0].price);
+      default:
+        return result.sort((a, b) => (b.recommended ? 1 : -1));
+    }
+  }, [searchTerm, category, sortOption]);
+
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#5a8bc2] to-[#2f4e6d] p-10 relative">
-      {/* Background Paralaks */}
-      <div className="absolute inset-0 bg-fixed" style={{ backgroundImage: "url('/background-coffee.jpg')", opacity: 0.1 }}></div>
+    <div className="min-h-screen bg-gradient-to-b from-[#5a8bc2] to-[#2f4e6d] p-8">
+      <div className="container mx-auto">
+        <h1 className="text-4xl font-bold text-center mb-10 text-white">
+          Nimbus <span className="text-[#eeb296]">Coffee Menu</span>
+        </h1>
 
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="container mx-auto relative">
-        <h2 className="text-6xl font-bold text-center mb-16">
-          <span className="text-white">Our</span> <span className="text-[#eeb296]">Menu</span>
-        </h2>
+        <SearchFilter 
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+          category={category}
+          setCategory={setCategory}
+          sortOption={sortOption}
+          setSortOption={setSortOption}
+          categories={MENU_CATEGORIES}
+        />
 
-        {/* Recommended Menu */}
-        <RecommendedMenu menuItems={menuItems} setSelectedItem={setSelectedItem} />
+        <RecommendedMenu 
+          items={filteredItems.filter(item => item.recommended)}
+          onItemSelect={setSelectedItem}
+        />
 
-        {/* Menu Items */}
-        <MenuItems menuItems={menuItems} setSelectedItem={setSelectedItem} />
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredItems.map((item) => (
+            <motion.div
+              key={item.id}
+              className="bg-[#2f4e6d] p-4 rounded-2xl cursor-pointer hover:scale-105 transition-transform"
+              onClick={() => setSelectedItem(item)}
+            >
+              <img 
+                src={item.image} 
+                alt={item.name} 
+                className="w-full h-48 object-cover rounded-lg mb-4" 
+              />
+              <h3 className="text-xl font-bold text-white mb-2">{item.name}</h3>
+              <p className="text-[#eeb296] mb-2">{item.description}</p>
+              <div className="text-white">
+                Start from Rp {item.variants[0].price.toLocaleString('id-ID')}
+              </div>
+            </motion.div>
+          ))}
+        </div>
 
-        {/* Modal */}
         <AnimatePresence>
           {selectedItem && (
-            <Modal selectedItem={selectedItem} setSelectedItem={setSelectedItem} />
+            <MenuModal 
+              item={selectedItem} 
+              onClose={() => setSelectedItem(null)} 
+            />
           )}
         </AnimatePresence>
-      </motion.div>
+      </div>
     </div>
   );
 };

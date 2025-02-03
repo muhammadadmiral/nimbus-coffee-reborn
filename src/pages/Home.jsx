@@ -5,7 +5,6 @@ import HeroSection from "../components/Home/HeroSection";
 import FloatingCoffeeElements from "../components/Home/FloatingCoffeeElements";
 import TimeBasedGreeting from "../components/Home/TimeBasedGreeting";
 import CustomerReviewsCarousel from "../components/Home/CustomerReviewsCarousel";
-import InteractiveSocialFeed from "../components/Home/InteractiveSocialFeed";
 import LoyaltyPointsBanner from "../components/Home/LoyaltyPointsBanner"; 
 import Gallery from "../components/Home/Gallery";
 
@@ -40,11 +39,6 @@ const Home = () => {
       {/* Gallery */}
       <div className="relative z-10">
         <Gallery />
-      </div>
-
-      {/* Interactive Social Feed */}
-      <div className="relative z-10">
-        <InteractiveSocialFeed />
       </div>
 
       {/* Loyalty Points Banner */}
