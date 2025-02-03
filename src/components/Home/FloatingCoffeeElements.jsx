@@ -1,40 +1,66 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
 const FloatingCoffeeElements = () => {
+  const [windowSize, setWindowSize] = useState({
+    width: typeof window !== 'undefined' ? window.innerWidth : 1200,
+    height: typeof window !== 'undefined' ? window.innerHeight : 800
+  });
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowSize({
+        width: window.innerWidth,
+        height: window.innerHeight
+      });
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const renderBean = (index) => {
+    const size = ['w-6', 'w-8', 'w-10'][index % 3];
+    const startX = Math.random() * windowSize.width;
+    const endX = startX + (Math.random() * 200 - 100);
+
+    return (
+      <motion.div
+        key={`bean-${index}`}
+        className="fixed"
+        style={{
+          left: startX,
+          bottom: -50
+        }}
+        initial={{ y: 0, opacity: 0, rotate: 0 }}
+        animate={{
+          y: [-50, -windowSize.height],
+          x: [0, endX - startX],
+          opacity: [0, 0.4, 0],
+          rotate: 360
+        }}
+        transition={{
+          duration: 8 + Math.random() * 4,
+          repeat: Infinity,
+          delay: index * 1.5,
+          ease: "linear"
+        }}
+      >
+        <img 
+          src="/single-coffee-beans.png"
+          alt=""
+          className={`${size} opacity-40`}
+          style={{
+            filter: "sepia(20%) hue-rotate(340deg)"
+          }}
+        />
+      </motion.div>
+    );
+  };
+
   return (
-    <div className="absolute inset-0 pointer-events-none">
-      {[...Array(8)].map((_, i) => (
-        <motion.div
-          key={i}
-          className="absolute"
-          initial={{
-            opacity: 0,
-            scale: Math.random() * 0.6 + 0.8,  // Random scale between 0.8 and 1.4
-            y: "100vh", 
-            x: Math.random() * 100 - 50,
-          }}
-          animate={{
-            opacity: 1,
-            scale: Math.random() * 0.4 + 1.1,  // Random scale between 1.1 and 1.5
-            y: "-100vh",
-            x: Math.random() * 300 - 150,  // Move across a wider area horizontally
-            rotate: [0, 360],  // 360 degrees rotation
-          }}
-          transition={{
-            duration: 12 + Math.random() * 8, // Random animation duration between 12s to 20s
-            repeat: Infinity,
-            delay: i * 0.5, // Slight delay for each element
-            ease: "easeInOut",
-          }}
-        >
-          <motion.img
-            src="/coffee-beans.png"  // Ensure the path to the image is correct
-            alt="Floating Coffee Bean"
-            className="w-16 h-16 object-contain"  // Adjust size to fit the animation scale
-          />
-        </motion.div>
-      ))}
+    <div className="pointer-events-none">
+      {[...Array(6)].map((_, i) => renderBean(i))}
     </div>
   );
 };

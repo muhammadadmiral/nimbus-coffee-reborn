@@ -3,75 +3,78 @@ import { motion } from "framer-motion";
 
 const HeroSection = () => {
   return (
-    <motion.div
-      className="relative h-screen bg-cover bg-center text-center text-white p-8"
-      style={{
-        backgroundImage: "url('/nimbus-kopi-susu.jpg')",
-        backgroundAttachment: "fixed",
-      }}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 1 }}
-    >
-      {/* Background Overlay */}
-      <div className="absolute inset-0 bg-black/50"></div>
-
-      {/* Hero Content */}
-      <div className="relative z-10">
-        <motion.h1
-          className="text-7xl sm:text-8xl font-extrabold tracking-wide text-white leading-tight"
-          initial={{ scale: 0.8, y: 10 }}
-          animate={{ scale: 1, y: 0 }}
-          transition={{ duration: 1, type: "spring" }}
-        >
-          <span className="text-[#eeb296]">Nimbus</span> Coffee
-        </motion.h1>
-
-        <motion.p
-          className="text-xl sm:text-2xl mt-6 max-w-2xl mx-auto text-gray-300"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1 }}
-        >
-          <span className="text-[#eeb296]">Light</span>,{" "}
-          <span className="text-[#6492c5]">Fresh</span>,{" "}
-          <span className="text-[#aa834c]">Like a Cloud</span> ☁️✨
-        </motion.p>
-
-        {/* CTA Button */}
+    <motion.div className="relative h-screen">
+      {/* Parallax Background */}
+      <div className="absolute inset-0">
         <motion.div
-          className="mt-12"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.5 }}
-        >
-          <a href="#menu">
-            <motion.button
-              className="px-8 py-4 bg-[#eeb296] text-[#040402] font-bold rounded-full shadow-lg hover:bg-[#d68c5e] transition-all duration-300 transform hover:scale-110"
-              whileHover={{ scale: 1.1 }}
-            >
-              Explore Our Menu
-            </motion.button>
-          </a>
-        </motion.div>
-
-        {/* Additional Section if needed */}
-        <motion.div
-          className="mt-6"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.7 }}
-        >
-          <a href="#about">
-            <motion.button
-              className="px-8 py-4 bg-transparent border-2 border-[#aa834c] text-[#aa834c] font-bold rounded-full hover:bg-[#aa834c] hover:text-white transition-all duration-300 transform hover:scale-110"
-              whileHover={{ scale: 1.1 }}
-            >
-              About Us
-            </motion.button>
-          </a>
-        </motion.div>
+          className="w-full h-full bg-cover bg-center"
+          style={{ backgroundImage: "url('/nimbus-kopi-susu.jpg')" }}
+          initial={{ scale: 1.2 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 20, repeat: Infinity }}
+        />
       </div>
+
+      {/* Content */}
+      <div className="relative z-10 flex items-center justify-center h-full">
+        <div className="text-center px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 100 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.5 }}
+          >
+            <h1 className="text-8xl font-black text-white mb-8">
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#eeb296] to-[#d68c5e]">
+                Nimbus
+              </span>
+              <br />
+              Coffee
+            </h1>
+            
+            <p className="text-3xl text-white/90 mb-12">
+              Experience Coffee Like Never Before
+            </p>
+
+            <motion.div 
+              className="flex gap-6 justify-center"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1.5 }}
+            >
+              <motion.button
+                className="px-8 py-4 bg-[#eeb296] rounded-full text-lg font-bold"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                Order Now
+              </motion.button>
+              
+              <motion.button
+                className="px-8 py-4 border-2 border-white text-white rounded-full"
+                whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.1)" }}
+                whileTap={{ scale: 0.95 }}
+              >
+                Our Story
+              </motion.button>
+            </motion.div>
+          </motion.div>
+        </div>
+      </div>
+
+      {/* Scroll Indicator */}
+      <motion.div 
+        className="absolute bottom-8 left-1/2 -translate-x-1/2"
+        animate={{ y: [0, 10, 0] }}
+        transition={{ duration: 1.5, repeat: Infinity }}
+      >
+        <div className="w-8 h-12 border-2 border-white rounded-full flex justify-center">
+          <motion.div 
+            className="w-1 h-3 bg-white rounded-full mt-2"
+            animate={{ y: [0, 20] }}
+            transition={{ duration: 1.5, repeat: Infinity }}
+          />
+        </div>
+      </motion.div>
     </motion.div>
   );
 };
