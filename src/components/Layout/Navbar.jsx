@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { FiMenu, FiX } from 'react-icons/fi';
-import { motion, AnimatePresence } from 'framer-motion';
-import logo from '/logo-nimbus.jpg';
+import React, { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { FiMenu, FiX } from "react-icons/fi";
+import { motion, AnimatePresence } from "framer-motion";
+import logo from "/logo-nimbus.jpg";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,8 +13,8 @@ const Navbar = () => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
     };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
@@ -71,7 +71,7 @@ const Navbar = () => {
           {isOpen && (
             <motion.div
               initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
+              animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
               className="md:hidden overflow-hidden bg-[#040402]/95 backdrop-blur-lg rounded-b-2xl"
             >
@@ -102,10 +102,7 @@ const Navbar = () => {
 };
 
 const NavLink = ({ to, children, isActive }) => (
-  <Link 
-    to={to} 
-    className="relative group"
-  >
+  <Link to={to} className="relative group">
     <span className={`text-lg font-medium transition-colors ${
       isActive ? 'text-[#6996c8]' : 'text-[#eeb296] hover:text-[#6996c8]'
     }`}>
