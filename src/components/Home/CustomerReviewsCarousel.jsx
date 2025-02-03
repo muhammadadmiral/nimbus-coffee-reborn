@@ -16,7 +16,7 @@ const CustomerReviewsCarousel = () => {
   };
 
   return (
-    <div className="text-center mb-16">
+    <div className="text-center mb-16 relative">
       {/* Title above the carousel */}
       <h2 className="text-3xl font-semibold text-[#eeb296] mb-8">
         What People Are Saying
@@ -30,7 +30,7 @@ const CustomerReviewsCarousel = () => {
           exit={{ opacity: 0, y: -50 }}
           transition={{ duration: 0.5 }}
         >
-          <div className="bg-[#3b5f87] p-8 rounded-lg text-white shadow-xl max-w-lg mx-auto flex items-center justify-center">
+          <div className="bg-[#3b5f87] p-8 rounded-lg text-white shadow-xl max-w-lg mx-auto flex items-center justify-center relative">
             {/* Testimonial with image */}
             <div className="flex items-center gap-4">
               <img
@@ -47,31 +47,31 @@ const CustomerReviewsCarousel = () => {
                 </p>
               </div>
             </div>
+
+            {/* Previous Button */}
+            <motion.button
+              onClick={prevTestimonial}
+              className="absolute left-[-120px] top-1/2 transform -translate-y-1/2 px-6 py-3 bg-[#6996c8] text-white rounded-lg hover:bg-[#6492c5] transition-all duration-300"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              style={{ zIndex: 10 }}
+            >
+              Previous
+            </motion.button>
+
+            {/* Next Button */}
+            <motion.button
+              onClick={nextTestimonial}
+              className="absolute right-[-90px] top-1/2 transform -translate-y-1/2 px-6 py-3 bg-[#6996c8] text-white rounded-lg hover:bg-[#6492c5] transition-all duration-300"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              style={{ zIndex: 10 }}
+            >
+              Next
+            </motion.button>
           </div>
         </motion.div>
       </AnimatePresence>
-
-      {/* Buttons below the carousel */}
-      <div className="mt-6 flex justify-center space-x-6">
-        <motion.button
-          onClick={prevTestimonial}
-          className="px-8 py-3 bg-[#6996c8] text-white rounded-lg hover:bg-[#6492c5] transition-all duration-300"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 1 }} // No scale on tap to avoid movement
-          style={{ zIndex: 10 }} // Keep the button on top of other elements
-        >
-          Previous
-        </motion.button>
-        <motion.button
-          onClick={nextTestimonial}
-          className="px-8 py-3 bg-[#6996c8] text-white rounded-lg hover:bg-[#6492c5] transition-all duration-300"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 1 }} // No scale on tap to avoid movement
-          style={{ zIndex: 10 }} // Keep the button on top of other elements
-        >
-          Next
-        </motion.button>
-      </div>
     </div>
   );
 };
