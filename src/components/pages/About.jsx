@@ -4,8 +4,8 @@ import { FaCoffee, FaUsers, FaStar, FaHeart } from "react-icons/fa";
 
 const About = () => {
   const stats = [
-    { icon: FaCoffee, value: "10K+", label: "Cups Served" },
-    { icon: FaUsers, value: "5K+", label: "Happy Customers" },
+    { icon: FaCoffee, value: "90+", label: "Bottle Served" },
+    { icon: FaUsers, value: "60+", label: "Happy Customers" },
     { icon: FaStar, value: "4.9", label: "Rating" },
     { icon: FaHeart, value: "100%", label: "Love for Coffee" },
   ];
