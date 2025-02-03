@@ -1,6 +1,8 @@
 [build]
-  command = "npm run build"  # Perintah untuk build
-  publish = "dist"  # Folder hasil build yang akan di-deploy
+  command = "npm run build"
+  publish = "dist"
+  functions = "netlify/functions"
 
 [dev]
-  framework = "vite"  # Jika kamu menggunakan Vite
+  framework = "vite"
+  targetPort = 5173
