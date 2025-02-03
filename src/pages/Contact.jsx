@@ -24,7 +24,7 @@ const Contact = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#040402] to-[#351405] py-20">
+    <div className="min-h-screen bg-gradient-to-b from-[#6996c8] to-[#3b5f87] p-10">
       <div className="container mx-auto px-4">
         <motion.div
           className="text-center mb-12"
