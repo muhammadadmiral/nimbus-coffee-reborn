@@ -11,8 +11,9 @@ const About = () => {
   ];
 
   const teamMembers = [
-    { name: "Fachri Makmur", role: "Head Barista", image: "/placeholder-barista1.jpg" },
-    { name: "Jane Smith", role: "Coffee Expert", image: "/placeholder-barista2.jpg" },
+    { name: "Fachri Makmura", role: "Head Barista", image: "/placeholder-barista1.jpg" },
+    { name: "Mochammad Haekal Poetra", role: "Owner & Barista", image: "/placeholder-barista2.jpg" },
+    { name: "Arfa Maritza Rosyadi", role: "Owner & Barista", image: "/placeholder-barista3.jpg" }
   ];
 
   const testimonials = [
@@ -108,7 +109,7 @@ const About = () => {
       {/* Team Section */}
       <div className="container mx-auto px-4 py-16">
         <h2 className="text-4xl font-bold text-center text-[#6996c8] mb-12">Our Team</h2>
-        <div className="grid md:grid-cols-2 gap-8">
+        <div className="grid md:grid-cols-3 gap-8">
           {teamMembers.map((member, index) => (
             <motion.div
               key={index}
