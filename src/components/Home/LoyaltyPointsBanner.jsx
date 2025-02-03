@@ -78,7 +78,7 @@ const LoyaltyPointsBanner = () => {
                 transition={{ delay: 0.6 }}
                 className="flex gap-4"
               >
-                <Link to="/loyalty-points">
+                <Link to="/loyalty">
                   <motion.button 
                     className="group flex items-center gap-2 bg-[#eeb296] text-[#2f4e6d] px-8 py-4 rounded-full text-lg font-bold 
                     hover:bg-[#d68c5e] transition-all duration-300 shadow-xl"

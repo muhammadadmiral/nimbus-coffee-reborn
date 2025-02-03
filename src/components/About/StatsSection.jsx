@@ -1,5 +1,5 @@
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Coffee, Users, Star, Heart } from "lucide-react";
 
 const stats = [
@@ -8,149 +8,157 @@ const stats = [
     value: "90+", 
     label: "Bottle Served",
     color: "#eeb296",
-    detail: "Fresh brewed daily" 
+    detail: "Fresh brewed daily",
+    percentage: 90
   },
   { 
     icon: Users, 
     value: "60+", 
     label: "Happy Customers",
     color: "#6996c8",
-    detail: "Growing community" 
+    detail: "Growing community",
+    percentage: 60
   },
   { 
     icon: Star, 
     value: "4.9", 
     label: "Rating",
     color: "#ffd700",
-    detail: "Customer satisfaction" 
+    detail: "Customer satisfaction",
+    percentage: 98
   },
   { 
     icon: Heart, 
     value: "100%", 
     label: "Love for Coffee",
     color: "#ff6b6b",
-    detail: "Passion in every cup" 
+    detail: "Passion in every cup",
+    percentage: 100
   }
 ];
 
 const StatsSection = () => {
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2
-      }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { 
-      opacity: 0,
-      y: 20,
-      scale: 0.8
-    },
-    visible: {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: {
-        type: "spring",
-        stiffness: 100
-      }
-    }
-  };
+  const [hoveredIndex, setHoveredIndex] = useState(null);
 
   return (
-    <div className="container mx-auto px-4 py-24">
-      <motion.h2 
-        className="text-6xl font-black text-center mb-4"
-        initial={{ opacity: 0, y: -20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-      >
-        Why Choose 
-        <span className="bg-gradient-to-r from-[#eeb296] to-[#ffffff] text-transparent bg-clip-text"> Nimbus Coffee?</span>
-      </motion.h2>
+    <div className="container mx-auto px-4 py-16 sm:py-24">
+      <motion.div className="text-center mb-12">
+        <motion.h2 
+          className="text-4xl sm:text-6xl font-black mb-4"
+          initial={{ opacity: 0, y: -20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+        >
+          Why Choose
+          <span className="bg-gradient-to-r from-[#eeb296] to-[#ffffff] text-transparent bg-clip-text"> Nimbus?</span>
+        </motion.h2>
 
-      <motion.p 
-        className="text-xl text-center text-white/80 mb-16 max-w-2xl mx-auto"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-      >
-        Experience the difference in every cup we serve
-      </motion.p>
+        <motion.p 
+          className="text-base sm:text-xl text-white/80 max-w-2xl mx-auto"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+        >
+          Experience the difference in every cup we serve
+        </motion.p>
+      </motion.div>
 
-      <motion.div 
-        className="grid grid-cols-2 lg:grid-cols-4 gap-8"
-        variants={containerVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
-      >
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8">
         {stats.map((stat, index) => (
           <motion.div
             key={index}
-            variants={itemVariants}
-            whileHover={{ scale: 1.05 }}
-            className="relative group"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: index * 0.1 }}
+            onHoverStart={() => setHoveredIndex(index)}
+            onHoverEnd={() => setHoveredIndex(null)}
+            className="group cursor-pointer"
           >
-            <div className="relative z-10 bg-white/10 backdrop-blur-lg p-8 rounded-2xl border border-white/20 overflow-hidden">
-              {/* Animated Background Gradient */}
-              <div 
-                className="absolute inset-0 bg-gradient-to-br opacity-20 transition-opacity duration-300 group-hover:opacity-30"
-                style={{ 
-                  backgroundImage: `linear-gradient(to bottom right, ${stat.color}, transparent)` 
-                }}
-              />
+            <motion.div 
+              className="relative bg-white/10 backdrop-blur-lg p-4 sm:p-8 rounded-2xl border border-white/20 overflow-hidden h-full"
+              whileHover={{ scale: 1.02 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
+              {/* Progress Circle */}
+              <svg className="absolute inset-0 w-full h-full -rotate-90">
+                <motion.circle
+                  cx="50%"
+                  cy="50%"
+                  r="45%"
+                  fill="none"
+                  stroke={stat.color}
+                  strokeWidth="1"
+                  strokeDasharray="283"
+                  initial={{ strokeDashoffset: 283 }}
+                  whileInView={{ 
+                    strokeDashoffset: 283 - (283 * stat.percentage / 100),
+                    transition: { duration: 1.5, ease: "easeOut" }
+                  }}
+                  className="opacity-10"
+                />
+              </svg>
 
-              {/* Icon */}
-              <motion.div
-                className="mb-6 relative"
+              <motion.div 
+                className="mb-4 sm:mb-6"
                 whileHover={{ scale: 1.1 }}
               >
-                <div className="w-16 h-16 mx-auto flex items-center justify-center relative">
+                <div className="w-12 sm:w-16 h-12 sm:h-16 mx-auto flex items-center justify-center relative">
                   <stat.icon 
-                    size={40} 
+                    size={32} 
                     className="relative z-10"
                     style={{ color: stat.color }} 
                   />
-                  <div 
-                    className="absolute inset-0 blur-lg opacity-50"
+                  <motion.div 
+                    className="absolute inset-0 blur-lg"
+                    animate={{ 
+                      opacity: hoveredIndex === index ? 0.7 : 0.3
+                    }}
                     style={{ backgroundColor: stat.color }}
                   />
                 </div>
               </motion.div>
 
-              {/* Value Counter */}
               <motion.h3 
-                className="text-5xl font-black text-white mb-2"
-                initial={{ opacity: 0, scale: 0 }}
+                className="text-3xl sm:text-4xl font-black text-white mb-2"
+                initial={{ opacity: 0, scale: 0.8 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
               >
                 {stat.value}
               </motion.h3>
 
-              {/* Label */}
-              <p className="text-lg font-medium text-white/80 mb-2">
+              <p className="text-sm sm:text-base font-medium text-white/80 mb-2">
                 {stat.label}
               </p>
 
-              {/* Detail - Appears on Hover */}
-              <motion.p 
-                className="text-sm text-white/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                initial={{ y: 10 }}
-                whileInView={{ y: 0 }}
-              >
-                {stat.detail}
-              </motion.p>
-            </div>
+              <AnimatePresence>
+                {hoveredIndex === index && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 10 }}
+                  >
+                    <p className="text-xs sm:text-sm text-white/60">
+                      {stat.detail}
+                    </p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+              <motion.div
+                className="absolute bottom-0 left-0 h-1 bg-gradient-to-r"
+                style={{ 
+                  backgroundImage: `linear-gradient(to right, ${stat.color}, transparent)`
+                }}
+                initial={{ width: 0 }}
+                whileInView={{ width: '100%' }}
+                transition={{ duration: 1, delay: 0.5 }}
+              />
+            </motion.div>
           </motion.div>
         ))}
-      </motion.div>
+      </div>
     </div>
   );
 };
